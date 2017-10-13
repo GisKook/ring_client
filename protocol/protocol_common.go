@@ -16,7 +16,8 @@ const (
 	PROTOCOL_ILLEGAL   int = 254
 	PROTOCOL_HALF_PACK int = 255
 
-	PROTOCOL_REQ_LOGIN string = "TLOGIN"
+	PROTOCOL_REQ_LOGIN    string = "TLOGIN"
+	PROTOCOL_REQ_LOCATION string = "TPOSUP"
 )
 
 var PROTOCOL = map[string]int{

@@ -49,6 +49,7 @@ func (c *Conn) Close() {
 
 func (c *Conn) stable_connect() {
 reconn:
+	time.Sleep(1 * time.Second)
 	if c.conn != nil {
 		c.conn.Close()
 		c.recv_buffer.Reset()
@@ -69,7 +70,10 @@ func (c *Conn) Do2() {
 			return
 		case <-c.ticker.C:
 			if c.status == ConnSuccess {
-
+				l := &protocol.LocationPacket{
+					Imei: c.terminal.Imei,
+				}
+				c.send(l.Serialize())
 			}
 		}
 	}
@@ -96,7 +100,7 @@ func (c *Conn) Do() {
 			return
 		}
 		c.recv_buffer.Write(buffer[0:buf_len])
-		log.Printf("<IN> %x\n", buffer[0:buf_len])
+		log.Printf("<IN> %s\n", string(buffer[0:buf_len]))
 		c.read_more = true
 		event_handler_server_msg_common(c)
 	}
